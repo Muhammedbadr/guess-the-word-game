@@ -1,16 +1,3 @@
-let wordToGuess = "";
-const words = ["Apples",
-    "Bananas",
-    "Oranges",
-    "Strawberries",
-    "Grapes",
-    "Watermelons",
-]
-wordToGuess = words[Math.floor(Math.random() * words.length)].toLowerCase()
-
-
-
-
 // ### game name 
 let gamename = "guess the word "
 document.title = gamename ;
@@ -22,6 +9,11 @@ document.querySelector("footer").innerHTML = `${gamename} go play `
 let namberoftry = 6;
 let numberofletter = 6;
 let currentTry = 1;
+
+let wordToGuess = "";
+const wordse = ["Apples","Bananas","Oranges","Strawberries","Grapes","Watermelons"];
+wordToGuess = wordse[Math.floor(Math.random() * wordse.length)].toLowerCase();
+let massaArea = document.querySelector(".masg")
 
 function generateinport() {
     const inportContainer = document.querySelector(".inputs");
@@ -87,20 +79,45 @@ function generateinport() {
 
 
 // button 
-const guessbutton = document.querySelector(".check")
-guessbutton.addEventListener("check" , handGuesses)
+const guessbutton = document.querySelector(".check");
+guessbutton.addEventListener("click", handGuss);
 
-function handGuesses(){
+console.log(wordToGuess);
+function handGuss() {
     let successGuess = true;
     console.log(wordToGuess);
-    for(let i =1 ; i <= numberofletter ; i++){
-        const inputfiled = document.querySelector(`#guess-${currentTry}-letter-${i}`)
-        const letter = inputfiled.value.toLowerCase()
-        const actualletter = wordToGuess[i -1 ]
+
+    for (let i = 1 ; i <= numberofletter ; i++){
+        const InputField = document.querySelector(`#guess-${currentTry}-letters-${i}`)
+        const letters = InputField.value.toLowerCase()
+        const actualletter = wordToGuess[i - 1];
+
+
+        if (letters === actualletter){
+            InputField.classList.add("word-is-correct");
+        }
+        else if (wordToGuess.includes(letters) && letters !== ""){
+            InputField.classList.add("word-not-in-her-place")
+            successGuess = false;
+        }
+        else{
+            InputField.classList.add("no")
+            successGuess = false;
+        }
+    };
+
+    if (successGuess){
+        massaArea.innerHTML = `you wain <span>${wordToGuess}</span>`
+
+        let alltries = document.querySelectorAll(".inputs > div")
+        alltries.forEach((trydiv)=>trydiv.classList.add(".disabled-input"));
+
+        guessbutton.disabled = true;
+    }
+    else{
+        console.log("you lose try agin")
     }
 }
-
-
 window.onload = function(){
     generateinport()
 }
